@@ -20,7 +20,6 @@
 ''' Unit tests for `config` module '''
 
 # Standard imports
-import os
 import pytest
 
 # Project specific imports

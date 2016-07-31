@@ -19,15 +19,11 @@
 
 
 '''
-    Add custom options to `py.test`
+    Helper functions for tests
 '''
 
-import os
+# Standard imports
 import pathlib
-import sys
-import shutil
-
-#sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 _data_dir = pathlib.Path(__file__).parent / 'data'

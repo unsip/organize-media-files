@@ -23,6 +23,9 @@ import copy
 class config:
 
     def __init__(self, filename):
+        '''
+            TODO Handle parse and I/O errors
+        '''
         # Lets use builtin python's INI file parser and feed a fake section to it.
         with filename.open('r') as inp:
             config_string = '[dummy]\n' + inp.read()
