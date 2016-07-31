@@ -17,9 +17,23 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from .config import config
 
-# Set PEP396 version attribute
-__version__ = '1.0.0'
+'''
+    Add custom options to `py.test`
+'''
 
-SYSCONFDIR = '/etc/organize-media-files'
+import os
+import pathlib
+import sys
+import shutil
+
+#sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+_data_dir = pathlib.Path(__file__).parent / 'data'
+
+def make_data_filename(filename):
+    return _data_dir / filename
+
+def data_dir_base():
+    return _data_dir

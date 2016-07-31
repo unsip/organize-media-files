@@ -7,3 +7,4 @@ __pycache__
 MANIFEST
 dist/
 build/
+organize_media_files.egg-info/

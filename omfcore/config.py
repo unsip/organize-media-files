@@ -17,9 +17,24 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from .config import config
+import configparser
+import copy
 
-# Set PEP396 version attribute
-__version__ = '1.0.0'
+class config:
 
-SYSCONFDIR = '/etc/organize-media-files'
+    def __init__(self, filename):
+        # Lets use builtin python's INI file parser and feed a fake section to it.
+        with filename.open('r') as inp:
+            config_string = '[dummy]\n' + inp.read()
+
+        # Parse file content
+        config = configparser.ConfigParser()
+        config.read_string(config_string)
+
+        # The result is a list of keys from the only (fake) section
+        self.patterns = dict(config['dummy'])
+
+    def merge_from(self, other):
+        tmp = copy.deepcopy(other.patterns)
+        tmp.update(self.patterns)
+        self.patterns = tmp
