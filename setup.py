@@ -17,6 +17,7 @@
 #
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 from setuptools import setup, find_packages
 
@@ -56,7 +57,7 @@ setup(
       , 'Topic :: Multimedia :: Sound/Audio'
       , 'Topic :: Utilities'
       ]
-  , install_requires = []
+  , install_requires   = []
   , test_suite         = 'test'
   , tests_require      = ['pytest']
   , zip_safe           = True
