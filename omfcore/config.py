@@ -19,23 +19,42 @@
 
 import configparser
 import copy
+import pathlib
+
 
 class config:
+
+    class FileError(RuntimeError):
+        pass
+
+    class WryConfigError(RuntimeError):
+        pass
 
     def __init__(self, filename):
         '''
             TODO Handle parse and I/O errors
         '''
-        # Lets use builtin python's INI file parser and feed a fake section to it.
-        with filename.open('r') as inp:
-            config_string = '[dummy]\n' + inp.read()
+        if isinstance(filename, str):
+            filename = pathlib.Path(filename)
+        elif not isinstance(filename, pathlib.Path):
+            assert False, 'Invalid parameter type. Review ur code.'
 
-        # Parse file content
-        config = configparser.ConfigParser()
-        config.read_string(config_string)
+        try:
+            # Lets use builtin python's INI file parser and feed a fake section to it.
+            with filename.open('r') as inp:
+                config_string = '[dummy]\n' + inp.read()
 
-        # The result is a list of keys from the only (fake) section
-        self.patterns = dict(config['dummy'])
+            # Parse file content
+            config = configparser.ConfigParser()
+            config.read_string(config_string)
+
+            # The result is a list of keys from the only (fake) section
+            self.patterns = dict(config['dummy'])
+        except (FileNotFoundError, PermissionError) as ex:
+            raise self.FileError(str(ex))
+        except configparser.ParsingError as ex:
+            raise self.WryConfigError(str(ex))
+
 
     def merge_from(self, other):
         tmp = copy.deepcopy(other.patterns)
