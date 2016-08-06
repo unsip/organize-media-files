@@ -17,10 +17,13 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Standard imports
 import configparser
 import copy
 import pathlib
 
+
+# Project specific imports
 
 class config:
 
@@ -29,6 +32,8 @@ class config:
 
     class WryConfigError(RuntimeError):
         pass
+
+    dry_run = False
 
     def __init__(self, filename):
         '''
@@ -54,6 +59,7 @@ class config:
             raise self.FileError(str(ex))
         except configparser.ParsingError as ex:
             raise self.WryConfigError(str(ex))
+
 
 
     def merge_from(self, other):
