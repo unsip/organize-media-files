@@ -50,6 +50,7 @@ class config:
 
             # The result is a list of keys from the only (fake) section
             self.patterns = dict(config['dummy'])
+            
         except (FileNotFoundError, PermissionError) as ex:
             raise self.FileError(str(ex))
         except configparser.ParsingError as ex:
