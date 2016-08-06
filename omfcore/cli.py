@@ -18,14 +18,43 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
+# Standard imports
 import argparse
 import os
 import sys
 
+# Project specific imports
+from .config import config
+
 class Application(object):
     def __init__(self):
-        pass
+        parser = argparse.ArgumentParser(description='Organize Media Files')
+        parser.add_argument(
+            '-d'
+          , '--dry-run'
+          , action='store_true'
+          , help='Do not do the job, just show whats going to be done'
+          )
+        parser.add_argument(
+            '-c'
+          , '--config'
+          , help='specify an alternative configuration file'
+          , metavar='FILE'
+          )
+        parser.add_argument(
+            '-p'
+          , '--pattern'
+          , metavar='NAME'
+          , help='Use given pattern to dispatch incoming files'
+          )
+        parser.add_argument(
+            'file'
+          , metavar='INPUT-FILE'
+          , nargs='+'
+          , help='files to dispatch using a pattern'
+          )
+        args = parser.parse_args()
+
 
     def run(self):
         pass
