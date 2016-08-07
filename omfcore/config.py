@@ -33,7 +33,9 @@ class config:
     class WryConfigError(RuntimeError):
         pass
 
-    dry_run = False
+    dry_run = False                                         # Option to indicate `dry-run`
+    pattern = None                                          # Name of pattern to use
+    files = None                                            # List of files to process
 
     def __init__(self, filename):
         '''
@@ -55,7 +57,7 @@ class config:
 
             # The result is a list of keys from the only (fake) section
             self.patterns = dict(config['dummy'])
-            
+
         except (FileNotFoundError, PermissionError) as ex:
             raise self.FileError(str(ex))
         except configparser.ParsingError as ex:
