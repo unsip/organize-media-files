@@ -28,7 +28,7 @@ import omfcore
 from context import make_data_filename
 
 class config_tester:
-
+    
     def setup(self):
         self.na = make_data_filename('non_accessible.conf')
         self.na.chmod(0)

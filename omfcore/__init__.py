@@ -18,6 +18,7 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from .config import config
+from .extractor import extractor
 
 # Set PEP396 version attribute
 __version__ = '1.0.0'
