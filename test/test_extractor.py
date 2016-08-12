@@ -47,12 +47,22 @@ class extractor_tester:
       )
     def known_meta_test(self, filename, title, artist, album, tracknumber):
         os.chdir(str(pathlib.Path(__file__).parent / 'data'))       # Is this method ok? Have to change dir,
-        metadata = omfcore.extractor(filename)                      # coz mutagen can't take path in any form
+        omfcore.extractor(filename)                                 # coz mutagen can't take path in any form
         
-        assert title == metadata['title']
-        assert artist == metadata['artist']
-        assert album == metadata['album']
-        assert tracknumber == metadata['tracknumber']
+        assert title == omfcore.extractor.metadata['title']
+        assert artist == omfcore.extractor.metadata['artist']
+        assert album == omfcore.extractor.metadata['album']
+        assert tracknumber == omfcore.extractor.metadata['tracknumber']
+
+    def na_test(self):
+        os.chdir(str(pathlib.Path(__file__).parent / 'data'))
+
+        # Not using pytest decorator coz was getting TypeError, dunno why
+        with pytest.raises(omfcore.extractor.FileError) as ex:
+            omfcore.extractor('non-accessable.flac')
+
+        with pytest.raises(omfcore.extractor.FileError) as ex:
+            omfcore.extractor('non-existing.flac')
 
 
 
