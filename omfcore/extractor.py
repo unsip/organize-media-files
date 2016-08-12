@@ -21,19 +21,32 @@
 '''Extract music-file metadata'''
 
 # Standart imports
-
+import pathlib
 # Project-specific imports
 import mutagen
+    
 
-def extractor(filename):
-    file = mutagen.File(filename, easy = True)
-    wishable_fields = ('album', 'title', 'artist', 'tracknumber')   # Add more fields here
+class extractor:
+    
+    class FileError(RuntimeError):
+        pass
+    
     metadata = {}
 
-    for field in wishable_fields:
-        try:
-            metadata[field] = file[field][0]    # mutagen obj is dict-like, but values stored as list of one
-        except KeyError:                        # string (dunno why), so we need to refer to the zero element
-            metadata[field] = ''
+    def __init__(self, filename):
+        if not isinstance(filename, str)
+            assert False, 'Invalid parameter type.'
 
-    return metadata
+        try:
+            file = mutagen.File(filename, easy = True)
+            wishable_fields = ('album', 'title', 'artist', 'tracknumber')   # Add more fields here
+
+            for field in wishable_fields:
+                try:
+                    self.metadata[field] = file[field][0]    # mutagen obj is dict-like, but values stored as list of one
+                except KeyError:                             # string (dunno why), so we need to refer to the zero element
+                    self.metadata[field] = ''
+
+        except (mutagen.MutagenError) as ex:
+            raise self.FileError(str(ex))
+
