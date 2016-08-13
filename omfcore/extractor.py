@@ -24,17 +24,17 @@
 import pathlib
 # Project-specific imports
 import mutagen
-    
+
 
 class extractor:
-    
+
     class FileError(RuntimeError):
         pass
-    
+
     metadata = {}
 
     def __init__(self, filename):
-        if not isinstance(filename, str)
+        if not isinstance(filename, str):
             assert False, 'Invalid parameter type.'
 
         try:
