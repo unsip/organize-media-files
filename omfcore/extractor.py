@@ -34,7 +34,7 @@ class extractor:
     metadata = {}
 
     def __init__(self, filename):
-        if not isinstance(filename, str)
+        if not isinstance(filename, str):
             assert False, 'Invalid parameter type.'
 
         try:

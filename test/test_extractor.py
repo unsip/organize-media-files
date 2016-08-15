@@ -63,13 +63,3 @@ class extractor_tester:
 
         with pytest.raises(omfcore.extractor.FileError) as ex:
             omfcore.extractor('non-existing.flac')
-
-
-
-# TODO: 
-#   1. Test expected files (flac, ogg, mp3).
-#   2. Test random-pick files (same formats, add others later).
-#   3. Test non-accessable files (chmode 0).
-#   4. Test files /w wry metatags (not filled field, some fields missing).
-#   5. Check which tags getting extracted from mp3 /w two different tag verions (ID3v1.1, ID3v2.3...). 
-#      (checked, extractor getting the highest possible version)

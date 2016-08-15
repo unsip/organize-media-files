@@ -95,15 +95,14 @@ class Application(object):
         self.config.dry_run = args.dry_run
         self.config.files = list(args.file)
         self.config.pattern = args.pattern
-        if self.config.pattern is None:
-            raise RuntimeError('No pattern so use has been given')
+
+        # Check for valid config
+        self.config.validate()
 
 
     def run(self):
         # Sanity check
-        assert isinstance(self.config.files, list)
-        assert len(self.config.files)
-        assert self.config.pattern is not None
+        pass
 
 
 
