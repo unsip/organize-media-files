@@ -24,13 +24,13 @@
 import pathlib
 # Project-specific imports
 import mutagen
-    
+
 
 class extractor:
-    
+
     class FileError(RuntimeError):
         pass
-    
+
     metadata = {}
 
     def __init__(self, filename):
