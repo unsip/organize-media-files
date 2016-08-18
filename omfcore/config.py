@@ -44,10 +44,8 @@ class config:
 
     @pattern.setter
     def pattern(self, value):
-        if value:
+        if value in self.patterns.keys():   # Checking if given pattern is in patterns dict
             self._pattern = value
-        elif self.patterns:
-            self._pattern = self.patterns.keys()[0]
         else:
             raise RuntimeError('No usable pattern was found.')
 
@@ -66,12 +64,10 @@ class config:
                 config_string = '[dummy]\n' + inp.read()
 
             # Parse file content
-            # TODO: test this moment
             config = configparser.ConfigParser(dict_type=collections.OrderedDict)
             config.read_string(config_string)
 
             # The result is a list of keys from the only (fake) section
-            # TODO: and that too
             self.patterns = collections.OrderedDict(config['dummy'])
 
         except (FileNotFoundError, PermissionError) as ex:
@@ -88,5 +84,5 @@ class config:
     def validate(self):
         '''Make sure that .conf's are valid to work with.'''
         assert self._pattern is not None, 'Set some `pattern` before validate.'
-        assert isinstance(self.files, list)
-        assert len(self.files)
+        #assert isinstance(self.files, list)
+        #assert len(self.files)
