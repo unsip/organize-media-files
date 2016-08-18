@@ -24,11 +24,13 @@ import os
 import pathlib
 import sys
 
-# Project specific imports
+# Project-specific imports
 from .config import config
+from .extractor import extractor
 
 SYSTEM_CONFIG = '/etc/omf.conf'
 USER_CONF = '.omfrc'
+METADATA_FIELDS = ('album', 'title', 'artist', 'tracknumber')   # Add more fields here
 
 class Application(object):
     def __init__(self):
@@ -98,9 +100,8 @@ class Application(object):
         # Check for valid config
         self.config.validate()
 
-
     def run(self):
-        # Sanity check
+        # dispatch here
         pass
 
 
