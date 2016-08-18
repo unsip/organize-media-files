@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
 # Organize Media Files
@@ -25,7 +24,7 @@ import copy
 import pathlib
 
 
-# Project specific imports
+# Project-specific imports
 
 class config:
 

@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
 # Organize Media Files
@@ -33,15 +32,14 @@ class extractor:
 
     metadata = {}
 
-    def __init__(self, filename):
+    def __init__(self, filename, metadata_fields):
         if not isinstance(filename, str):
             assert False, 'Invalid parameter type.'
 
         try:
             file = mutagen.File(filename, easy = True)
-            wishable_fields = ('album', 'title', 'artist', 'tracknumber')   # Add more fields here
 
-            for field in wishable_fields:
+            for field in metadata_fields:
                 try:
                     self.metadata[field] = file[field][0]    # mutagen obj is dict-like, but values stored as list of one
                 except KeyError:                             # string (dunno why), so we need to refer to the zero element
