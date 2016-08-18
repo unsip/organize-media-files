@@ -23,15 +23,12 @@
 import pathlib
 import pytest
 
-# Project specific imports
+# Project-specific imports
 import omfcore
 from context import make_data_filename
 
 class config_tester:
-    '''
-        TODO:
-            1. Check for dict ordering in config file
-    '''
+
     def setup(self):
         self.na = make_data_filename('non_accessible.conf')
         self.na.chmod(0)
@@ -70,7 +67,3 @@ class config_tester:
         assert user_conf.patterns['one'] == 'satu'
         assert user_conf.patterns['two'] == 'dua'
         assert user_conf.patterns['three'] == 'tiga'
-
-    def valid_test(self):
-        pass        
-
