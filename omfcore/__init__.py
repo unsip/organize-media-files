@@ -19,6 +19,7 @@
 
 from .config import config
 from .extractor import extractor
+from .organaizer import validate_path, build_path, path_checker, dispatch
 
 # Set PEP396 version attribute
 __version__ = '1.0.0'
