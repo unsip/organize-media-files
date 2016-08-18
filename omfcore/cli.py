@@ -47,8 +47,7 @@ class Application(object):
           , metavar='FILE'
           )
         parser.add_argument(
-            '-p'
-          , '--pattern'
+            'pattern'
           , metavar='NAME'
           , help='Use given pattern to dispatch incoming files'
           )
