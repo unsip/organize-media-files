@@ -54,18 +54,7 @@ class organaize_tester:
       )
     def validate_path_test(self, filepath):
         valid_path, filename = omfcore.organaizer.validate_path(str(filepath))
-        assert valid_path / filename == str(filepath)
-
-    @pytest.mark.parametrize(
-        'metadata'
-      , [
-            ()
-          , ()
-          , ()
-        ]
-      )
-    def build_path_test(self, metadata):
-        pass
+        assert valid_path + filename == str(filepath)
 
     def path_checker_test(self):
         pass
