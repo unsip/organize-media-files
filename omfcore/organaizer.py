@@ -58,21 +58,3 @@ def dispatch(files_list, pattern):
         paths.append((file, build_path(extractor.metadata, pattern)))
 
     return paths
-
-# Dispatch (files_lst, pattern):
-#   paths = []
-#   for file in files_lst: 
-#       valid_path = pathlib.Path.parents[0]
-#       filename = pathlib.Path.name
-#       
-#       if valid_path: 
-#           os.chdir(valid_path)
-#       extractor(filename)
-#       paths.append((file, build_path(extractor.metadata, pattern)))
-#
-#   return paths
-#
-# build_path(metadata, pattern) <-- Build path from meta, based on given pattern
-# 
-# Don't forget stuff:
-#   - pathlib.Path.parents[0] raises exception if '.' is given. And '.' is valid path
