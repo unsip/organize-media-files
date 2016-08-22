@@ -27,29 +27,53 @@ import re
 # Project-specific imports
 from .extractor import extractor
 
-def validate_path(file_path):
-    ''' Prepare path for futher using by mutagen by separatating full-path into path + file. '''
-    assert type(file_path) == str, 'Invalid argument, should be str. Review your code.'
-    
-    valid_path = file_path[file_path.rfind(os.sep) + 1:]
-    filename = file_path[:file_path.rfind(os.sep) + 1]
-    return filename, valid_path
-
 def build_path(metadata, pattern):
     ''' Build path for music file, according to given meta and pattern. '''
-    assert type(metadata) == dict, 'Invalid argument, should be dict. Review your code.'
-    assert type(pattern) == str, 'Invalid argument, should be str. Review your code.'
+    assert isinstance(metadata, dict), 'Invalid argument, should be dict. Review your code.'
+    assert isinstance(pattern, str), 'Invalid argument, should be str. Review your code.'
 
     for field in metadata:
-        pattern_to_find = r'{' + field + r'}'
+        pattern_to_find = '{' + field + '}'
         pattern = pattern.replace(pattern_to_find, metadata[field])
 
     return pattern
 
-def path_checker(filename, path):
-    ''' Check if file with the same name exists in given path. '''
-    pass
-
 def dispatch(files_list, pattern):
     ''' Construct list of tuples containing filename's and new path for them. '''
-    pass
+    paths = []
+    for file in files_list:
+        file = pathlib.Path(file)
+        if not file.exists():
+            raise RuntimeError      # have to raise it here, coz next step is os.chdir
+        
+        if file == pathlib.Path('.'):
+            raise RuntimeError      # .parent[0] on '.' cause IndexError
+
+        os.chdir(pathlib.Path(__file__).absolute() / file)
+
+        try:
+            extractor(str(file.name))
+        except (extractor.FileError) as ex:
+            raise RuntimeError(str(ex))
+
+        paths.append((file, build_path(extractor.metadata, pattern)))
+
+    return paths
+
+# Dispatch (files_lst, pattern):
+#   paths = []
+#   for file in files_lst: 
+#       valid_path = pathlib.Path.parents[0]
+#       filename = pathlib.Path.name
+#       
+#       if valid_path: 
+#           os.chdir(valid_path)
+#       extractor(filename)
+#       paths.append((file, build_path(extractor.metadata, pattern)))
+#
+#   return paths
+#
+# build_path(metadata, pattern) <-- Build path from meta, based on given pattern
+# 
+# Don't forget stuff:
+#   - pathlib.Path.parents[0] raises exception if '.' is given. And '.' is valid path

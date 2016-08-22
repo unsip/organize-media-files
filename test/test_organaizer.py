@@ -34,48 +34,32 @@ class organaize_tester:
         pass
 
     @pytest.mark.parametrize(
-        'files_lst'
-      , [
-            ()
-          , ()
-          , ()
-        ]
-      )
-    def dispatch_test(self, files_lst):
-        pass
-
-    @pytest.mark.parametrize(
-        'filepath'
+        'file'
       , [
             (make_data_filename('sample_mp3.mp3'))
-          , (pathlib.Path(os.getcwd()).parent / 'README.md')
-          , (pathlib.Path(os.getcwd()) / 'test_config.py')
+          , (make_data_filename('sample_flac.flac'))
+          , (make_data_filename('sample_ogg.ogg'))
         ]
       )
-    def validate_path_test(self, filepath):
-        valid_path, filename = omfcore.organaizer.validate_path(str(filepath))
-        assert valid_path + filename == str(filepath)
+    def build_path_test(self, file):
+        pattern = '/storage/music/{artist}/{album}/{tracknumber}_{title}'
+        expected = '/storage/music/some_artist_{0}/some_album_{0}/1_some_title_{0}'.format(file.suffix[1:])
+        
+        os.chdir(str(file.parents[0]))
+        mutagen_obj = omfcore.extractor(str(file.name), omfcore.METADATA_FIELDS)
+        output = omfcore.build_path(mutagen_obj.metadata, pattern)
 
-    def path_checker_test(self):
-        pass
+        assert output == expected
 
+    @pytest.mark.parametrize(
+        'files_lst, exception'
+      , [
+            ([pathlib.Path('.')], RuntimeError)
+          , ([pathlib.Path('non/existing/path')], RuntimeError)
+        ]
+      )
+    def dispatch_test(self, files_lst, exception):
+        pattern = '/storage/music/{artist}/{album}/{tracknumber}_{title}'
 
-# Dispatch (files_lst, pattern):
-#   paths = []
-#   for file in files_lst: 
-#       valid_path, filename = validate_path(file)
-#       
-#       if valid_path: 
-#           os.chdir(valid_path)
-#       extractor(filename)
-#       paths.append((file, build_path(extractor.metadata, pattern)))
-#
-#   return paths
-#
-# validate_path(file) <--- Would return valid_path and filename 
-# build_path(metadata, pattern) <-- Build path from meta, based on given pattern
-# 
-# Questions:
-# - What about imports like `from .config import config`, would it autoimport inner-used modules?
-# - How to currectly organize dispatching, as whole new class?
-# - How to organize class, with private methods (such as validate_path(file))?
+        with pytest.raises(exception) as ex:
+            omfcore.dispatch(files_lst, pattern)
