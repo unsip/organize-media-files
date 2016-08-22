@@ -22,7 +22,6 @@
 # Standart imports
 import os
 import pathlib
-import re
 
 # Project-specific imports
 from .extractor import extractor
