@@ -35,6 +35,8 @@ def build_path(metadata, pattern):
         pattern_to_find = '{' + field + '}'
         pattern = pattern.replace(pattern_to_find, metadata[field])
 
+    pattern = pathlib.Path(pattern)
+
     return pattern
 
 def dispatch(files_list, pattern):
