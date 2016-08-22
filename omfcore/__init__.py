@@ -19,8 +19,8 @@
 
 from .config import config
 from .extractor import extractor
-from .organaizer import validate_path, build_path, path_checker, dispatch
-from .cli import METADATA_FIELDS
+from .organaizer import build_path, dispatch
+from .core_varaibles import METADATA_FIELDS
 
 # Set PEP396 version attribute
 __version__ = '1.0.0'
