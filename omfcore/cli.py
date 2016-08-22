@@ -104,21 +104,22 @@ class Application(object):
         self.config.dry_run = args.dry_run
         self.config.files = list(args.file)
         self.config.pattern = args.pattern
+        self.config.force = args.force
 
         # Check for valid config
         self.config.validate()
 
     def run(self):
         try:
-            paths = dispatch(self.config.files, self.config.pattern)
+            paths = dispatch(self.config.files, self.config.pattern, self.config.force)
         except RuntimeError as ex:
             raise RuntimeError(str(ex))
 
         print(repr(paths))
 
-
-
-
+        for pair in paths:
+            if pair[1].exists() and not self.config.force:
+                raise RuntimeError('Same file exists and --force not specified')
 
 def main():
     try:

@@ -38,23 +38,20 @@ def build_path(metadata, pattern):
 
     return pattern
 
-def dispatch(files_list, pattern):
+def dispatch(files_list, pattern, force):
     ''' Construct list of tuples containing filename's and new path for them. '''
     paths = []
+
     for file in files_list:
         file = pathlib.Path(file)
-        if not file.exists():
-            raise RuntimeError      # have to raise it here, coz next step is os.chdir
-        
         if file == pathlib.Path('.'):
-            raise RuntimeError      # .parent[0] on '.' cause IndexError
-
-        os.chdir(str(file.absolute().parents[0]))
+            raise RuntimeError('No such file or directory.')      # .parent[0] on '.' cause IndexError
 
         try:
-            extractor(str(file.name), METADATA_FIELDS)
+            extractor(str(file), METADATA_FIELDS)
         except (extractor.FileError) as ex:
-            raise RuntimeError(str(ex))
+            if not force:
+                raise RuntimeError(str(ex))
 
         paths.append((file, pathlib.Path(build_path(extractor.metadata, pattern))))
 

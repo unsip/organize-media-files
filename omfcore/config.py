@@ -36,6 +36,7 @@ class config:
 
     dry_run = False                                         # Option to indicate `dry-run`                                        # Name of pattern to use
     files = None                                            # List of files to process
+    force = False                                           # Ignore inconsistencies
 
     @property
     def pattern(self):
@@ -47,7 +48,6 @@ class config:
             self._pattern = self.patterns[value]
         else:
             raise RuntimeError('No usable pattern was found.')
-
 
     def __init__(self, filename):
         if isinstance(filename, str):

@@ -62,4 +62,4 @@ class organaize_tester:
         pattern = '/storage/music/{artist}/{album}/{tracknumber}_{title}'
 
         with pytest.raises(exception) as ex:
-            omfcore.dispatch(files_lst, pattern)
+            omfcore.dispatch(files_lst, pattern, False)
