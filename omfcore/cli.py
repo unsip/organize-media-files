@@ -30,9 +30,9 @@ from .extractor import extractor
 
 SYSTEM_CONFIG = '/etc/omf.conf'
 USER_CONF = '.omfrc'
-METADATA_FIELDS = ('album', 'title', 'artist', 'tracknumber')   # Add more fields here
 
 class Application(object):
+
     def __init__(self):
         parser = argparse.ArgumentParser(description='Organize Media Files')
         parser.add_argument(
