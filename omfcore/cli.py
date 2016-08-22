@@ -27,6 +27,7 @@ import sys
 # Project-specific imports
 from .config import config
 from .extractor import extractor
+from .organaizer import dispatch
 
 SYSTEM_CONFIG = '/etc/omf.conf'
 USER_CONF = '.omfrc'
@@ -47,6 +48,13 @@ class Application(object):
           , '--config'
           , help='specify an alternative configuration file'
           , metavar='FILE'
+          )
+        parser.add_argument(
+            '-f'
+          , '--force'
+          , action='store_true'
+          , default=False
+          , help='ignore inconsistencies or/and overwrite files'
           )
         parser.add_argument(
             'pattern'
@@ -101,8 +109,13 @@ class Application(object):
         self.config.validate()
 
     def run(self):
-        # dispatch here
-        pass
+        try:
+            paths = dispatch(self.config.files, self.config.pattern)
+        except RuntimeError as ex:
+            raise RuntimeError(str(ex))
+
+        print(repr(paths))
+
 
 
 

@@ -25,6 +25,7 @@ import pathlib
 
 # Project-specific imports
 from .extractor import extractor
+from .core_varaibles import METADATA_FIELDS
 
 def build_path(metadata, pattern):
     ''' Build path for music file, according to given meta and pattern. '''
@@ -34,8 +35,6 @@ def build_path(metadata, pattern):
     for field in metadata:
         pattern_to_find = '{' + field + '}'
         pattern = pattern.replace(pattern_to_find, metadata[field])
-
-    pattern = pathlib.Path(pattern)
 
     return pattern
 
@@ -50,13 +49,13 @@ def dispatch(files_list, pattern):
         if file == pathlib.Path('.'):
             raise RuntimeError      # .parent[0] on '.' cause IndexError
 
-        os.chdir(pathlib.Path(__file__).absolute() / file)
+        os.chdir(str(file.absolute().parents[0]))
 
         try:
-            extractor(str(file.name))
+            extractor(str(file.name), METADATA_FIELDS)
         except (extractor.FileError) as ex:
             raise RuntimeError(str(ex))
 
-        paths.append((file, build_path(extractor.metadata, pattern)))
+        paths.append((file, pathlib.Path(build_path(extractor.metadata, pattern))))
 
     return paths

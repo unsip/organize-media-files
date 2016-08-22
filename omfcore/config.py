@@ -44,7 +44,7 @@ class config:
     @pattern.setter
     def pattern(self, value):
         if value in self.patterns.keys():   # Checking if given pattern is in patterns dict
-            self._pattern = value
+            self._pattern = self.patterns[value]
         else:
             raise RuntimeError('No usable pattern was found.')
 
