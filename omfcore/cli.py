@@ -110,10 +110,7 @@ class Application(object):
         self.config.validate()
 
     def run(self):
-        try:
-            paths = dispatch(self.config.files, self.config.pattern, self.config.force)
-        except RuntimeError as ex:
-            raise RuntimeError(str(ex))
+        paths = dispatch(self.config.files, self.config.pattern, self.config.force)
 
         #print(repr(paths))
 
