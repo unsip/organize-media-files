@@ -7,6 +7,7 @@ media files according meta data tags and configurable rules.
 
 TODO
 ============
-1. Develop --dry-run.
-2. Develop mv using `shutils.move` 
-3. Test more formats.
+1. Check if everything is ok.
+2. Test more formats.
+3. Add more metatag fields.
+4. Complete exception raises (exception texts).

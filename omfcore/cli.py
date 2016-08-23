@@ -27,7 +27,7 @@ import sys
 # Project-specific imports
 from .config import config
 from .extractor import extractor
-from .organaizer import dispatch
+from .organaizer import dispatch, action_run, dry_run
 
 SYSTEM_CONFIG = '/etc/omf.conf'
 USER_CONF = '.omfrc'
@@ -69,7 +69,7 @@ class Application(object):
           )
         args = parser.parse_args()
 
-        print('args={}'.format(repr(args)))
+        #print('args={}'.format(repr(args)))
 
         if args.config is not None:
             cfg_file = pathlib.Path(args.config)
@@ -115,11 +115,12 @@ class Application(object):
         except RuntimeError as ex:
             raise RuntimeError(str(ex))
 
-        print(repr(paths))
+        #print(repr(paths))
 
-        for pair in paths:
-            if pair[1].exists() and not self.config.force:
-                raise RuntimeError('Same file exists and --force not specified')
+        if self.config.dry_run:
+            dry_run(paths, self.config.force)
+        else:
+            action_run(paths, self.config.force)
 
 def main():
     try:

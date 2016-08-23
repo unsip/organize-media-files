@@ -22,6 +22,7 @@
 # Standart imports
 import os
 import pathlib
+import shutil
 
 # Project-specific imports
 from .extractor import extractor
@@ -56,3 +57,34 @@ def dispatch(files_list, pattern, force):
         paths.append((file, pathlib.Path(build_path(extractor.metadata, pattern))))
 
     return paths
+
+def dry_run(paths, force):
+    ''' Displays behaviour in a particular case. '''
+    for pair in paths:
+        if pair[1].exists() and not force:
+            print('{}:'.format(pair[0].name))
+            
+            strg = ' '.join((
+                    '   '
+                  , 'Warning, file {} already exists'.format(str(pair[1].name))
+                  , 'and won\'t be processed,' 
+                  , 'unless --force specified.'
+                ))
+            print(strg)
+        else:
+            print('Moving {0} to {1}'.format(pair[0], pair[1]))
+
+def action_run(paths, force):
+    ''' Core process of moving files. '''
+    for pair in paths:
+        if pair[1].exists() and not force:
+            raise RuntimeError('Same file {} exists and --force not specified'.format(str(pair[0])))
+
+    for pair in paths:
+        try:
+            if pair[1].parents[0] != pathlib.Path('.') and not pair[1].parents[0].exists():
+                pair[1].parents[0].mkdir(parents=True)
+            
+            shutil.move(str(pair[0]), str(pair[1]))
+        except (OSError) as ex:
+            raise RuntimeError(ex)
