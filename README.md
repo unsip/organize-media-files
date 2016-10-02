@@ -10,6 +10,8 @@ TODO
 1. Create documentation.
 2. Test more formats.
 3. Make output more readable.
+4. Fix config-picking logic.
+5. Make a package.
 
 Some warnings for future
 ============
