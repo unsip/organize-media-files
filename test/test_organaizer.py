@@ -79,4 +79,4 @@ class organaize_tester:
       )
     def filter_test(self, pattern, expected_metafields):
         result = omfcore.filter_meta(pattern, omfcore.METADATA_FIELDS)
-        assert set(result) == set(expected_metafields)
+        assert result == set(expected_metafields)

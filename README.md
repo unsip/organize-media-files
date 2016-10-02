@@ -14,4 +14,5 @@ TODO
 
 Some warnings for future
 ============
-1. OMF dispatching files using pathlib.Path(pattern-specified-path). Such behavior can lead to usage misunderstandings. (Can pathlib constuct paths, using OS vars?)
+1. OMF dispatching files using pathlib.Path(pattern-specified-path). Such behavior can lead to usage misunderstandings.
+2. It's up to user to write pattern correctly. Wry pattern is a user fault, not omf's. But in case omf extracting wrong metafields - have to fix `METADATA_FIELDS` list in core_varaibles.py.

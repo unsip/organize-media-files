@@ -20,4 +20,4 @@
 ''' Project-specific variables and objects. '''
 
 METADATA_FIELDS = ('album', 'title', 'artist', 'tracknumber'
-                    , 'genre', 'date', 'encoder', 'comment')   # Add more fields here
+                    , 'genre', 'date', 'encoder')   # Add more fields here
