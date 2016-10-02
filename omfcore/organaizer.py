@@ -45,6 +45,8 @@ def dispatch(files_list, pattern, force):
 
     for file in files_list:
         file = pathlib.Path(file)
+        file = file.expanduser()
+        
         if file == pathlib.Path('.'):
             raise RuntimeError('No such file or directory.')      # .parent[0] on '.' cause IndexError
 
@@ -54,7 +56,11 @@ def dispatch(files_list, pattern, force):
             if not force:
                 raise RuntimeError(str(ex))
 
-        paths.append((file, pathlib.Path(build_path(extractor.metadata, pattern))))
+        # Building path and expanding '~' symbols in it.
+        complete_path = pathlib.Path(build_path(extractor.metadata, pattern))
+        complete_path = complete_path.expanduser()
+
+        paths.append((file, complete_path))
 
     return paths
 
@@ -72,7 +78,7 @@ def dry_run(paths, force):
                 ))
             print(strg)
         else:
-            print('Moving {0} to {1}'.format(pair[0], pair[1]))
+            print('    Moving {0} to {1}'.format(pair[0], pair[1]))
 
 def action_run(paths, force):
     ''' Core process of moving files. '''
