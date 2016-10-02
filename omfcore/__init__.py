@@ -19,7 +19,7 @@
 
 from .config import config
 from .extractor import extractor
-from .organaizer import build_path, dispatch, action_run, dry_run
+from .organaizer import build_path, dispatch, action_run, dry_run, filter_meta
 from .core_varaibles import METADATA_FIELDS
 
 # Set PEP396 version attribute

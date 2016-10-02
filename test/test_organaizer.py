@@ -27,11 +27,11 @@ import pytest
 # Project-specific imports
 import omfcore
 from context import make_data_filename
-
+      
 class organaize_tester:
 
     def setup(self):
-        pass
+      pass
 
     @pytest.mark.parametrize(
         'file'
@@ -63,3 +63,20 @@ class organaize_tester:
 
         with pytest.raises(exception) as ex:
             omfcore.dispatch(files_lst, pattern, False)
+
+    @pytest.mark.parametrize(
+        'pattern, expected_metafields'
+      , [
+            (
+              '/storage/music/{artist}/{album}/{tracknumber}_{title}'
+              , ('artist', 'album', 'tracknumber', 'title')
+            )
+          , (
+              '/home/david/{{badstuff}}/{wrong}}/{{{title}}/{genre}'
+              , ('title', 'genre')
+            )
+        ]
+      )
+    def filter_test(self, pattern, expected_metafields):
+        result = omfcore.filter_meta(pattern, omfcore.METADATA_FIELDS)
+        assert set(result) == set(expected_metafields)

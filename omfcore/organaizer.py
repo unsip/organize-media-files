@@ -46,7 +46,7 @@ def dispatch(files_list, pattern, force):
     for file in files_list:
         file = pathlib.Path(file)
         file = file.expanduser()
-        
+
         if file == pathlib.Path('.'):
             raise RuntimeError('No such file or directory.')      # .parent[0] on '.' cause IndexError
 
@@ -72,7 +72,7 @@ def dry_run(paths, force):
             
             strg = ' '.join((
                     '   '
-                  , 'Warning, file {} already exists'.format(str(pair[1].name))
+                  , '    Warning, file {} already exists'.format(str(pair[1].name))
                   , 'and won\'t be processed,' 
                   , 'unless --force specified.'
                 ))
@@ -94,3 +94,13 @@ def action_run(paths, force):
             shutil.move(str(pair[0]), str(pair[1]))
         except (OSError) as ex:
             raise RuntimeError(ex)
+
+def filter_meta(pattern, metatags):
+    ''' Filter METADATA_FIELDS from unused tags.'''
+    used_tags = set()
+    
+    for metatag in metatags:
+        if ('{' + metatag + '}') in pattern:
+            used_tags.add(metatag)
+    
+    return used_tags
