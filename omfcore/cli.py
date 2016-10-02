@@ -30,7 +30,7 @@ from .extractor import extractor
 from .organaizer import dispatch, action_run, dry_run
 
 SYSTEM_CONFIG = '/etc/omf.conf'
-USER_CONF = '.omfrc'
+USER_CONF = '.omfrc/default.conf'
 
 class Application(object):
 
@@ -58,7 +58,7 @@ class Application(object):
           )
         parser.add_argument(
             'pattern'
-          , metavar='NAME'
+          , metavar='PATTERN-NAME'
           , help='Use given pattern to dispatch incoming files'
           )
         parser.add_argument(
@@ -83,6 +83,7 @@ class Application(object):
 
             # Check user config
             user_cfg_file = pathlib.Path(pathlib.Path.home() / USER_CONF)
+
             user_conf = None
             if user_cfg_file.exists():
                 user_conf = config(user_cfg_file)
