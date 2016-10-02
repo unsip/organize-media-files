@@ -50,8 +50,10 @@ def dispatch(files_list, pattern, force):
         if file == pathlib.Path('.'):
             raise RuntimeError('No such file or directory.')      # .parent[0] on '.' cause IndexError
 
+        metafields = filter_meta(pattern, METADATA_FIELDS)
+
         try:
-            extractor(str(file), METADATA_FIELDS)
+            extractor(str(file), metafields)
         except (extractor.FileError) as ex:
             if not force:
                 raise RuntimeError(str(ex))
