@@ -2,7 +2,7 @@
 #
 # Organize Media Files
 #
-# Copyright (c) 2016 Alex Turbov <i.zaufi@gmail.com>
+# Copyright (c) 2016 Andrey Turbov <andrey.turbov@gmail.com>
 #
 # Organize Media Files is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the

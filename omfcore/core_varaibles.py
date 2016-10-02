@@ -2,7 +2,7 @@
 #
 # Organize Media Files
 #
-# Copyright (c) 2016 Alex Turbov <i.zaufi@gmail.com>
+# Copyright (c) 2016 Andrey Turbov <andrey.turbov@gmail.com>
 #
 # Organize Media Files is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -19,4 +19,5 @@
 
 ''' Project-specific variables and objects. '''
 
-METADATA_FIELDS = ('album', 'title', 'artist', 'tracknumber')   # Add more fields here
+METADATA_FIELDS = ('album', 'title', 'artist', 'tracknumber'
+                    , 'genre', 'date', 'encoder', 'comment')   # Add more fields here

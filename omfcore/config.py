@@ -2,7 +2,7 @@
 #
 # Organize Media Files
 #
-# Copyright (c) 2016 Alex Turbov <i.zaufi@gmail.com>
+# Copyright (c) 2016 Andrey Turbov <andrey.turbov@gmail.com>
 #
 # Organize Media Files is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -83,5 +83,5 @@ class config:
     def validate(self):
         '''Make sure that .conf's are valid to work with.'''
         assert self._pattern is not None, 'Set some `pattern` before validate.'
-        #assert isinstance(self.files, list)
-        #assert len(self.files)
+        assert isinstance(self.files, list)
+        assert len(self.files)
