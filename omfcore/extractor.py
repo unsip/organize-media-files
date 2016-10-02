@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Organize Media Files
-#
+#-
 # Copyright (c) 2016 Andrey Turbov <andrey.turbov@gmail.com>
 #
 # Organize Media Files is free software: you can redistribute it and/or modify it
@@ -20,6 +20,7 @@
 '''Extract music-file metadata'''
 
 # Standart imports
+import os
 import pathlib
 # Project-specific imports
 import mutagen
@@ -32,6 +33,13 @@ class extractor:
 
     metadata = {}
 
+    def __fix_metafields(self, data):
+        ''' Fixing metatag data in case of separator occurance.'''
+        while (os.sep in data):
+            data = data.replace(os.sep, '_')
+
+        return data
+
     def __init__(self, filename, metadata_fields):
         if not isinstance(filename, str):
             assert False, 'Invalid parameter type.'
@@ -41,10 +49,16 @@ class extractor:
 
             for field in metadata_fields:
                 try:
-                    self.metadata[field] = file[field][0]    # mutagen obj is dict-like, but values stored as list of one
-                except KeyError:                             # string (dunno why), so we need to refer to the zero element
-                    self.metadata[field] = ''
+                    # mutagen obj is dict-like, but values stored as list of one
+                    # string (dunno why), so we need to refer to the zero element
+                    fixed_data = self.__fix_metafields(file[field][0])
+                    self.metadata[field] = fixed_data
+                except KeyError:                             
+                    raise self.FileError('Metatag `{}` is missing.'.format(field))
+                except TypeError:
+                    raise self.FileError('Invalid filetype to extract meta from.')
 
         except (mutagen.MutagenError) as ex:
             raise self.FileError(str(ex))
+
 
