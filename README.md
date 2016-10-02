@@ -12,6 +12,7 @@ TODO
 3. Make output more readable.
 4. Fix config-picking logic.
 5. Make a package.
+6. Add bash-completion for patterns.
 
 Some warnings for future
 ============
