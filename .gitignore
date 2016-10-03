@@ -8,3 +8,5 @@ MANIFEST
 dist/
 build/
 organize_media_files.egg-info/
+.coverage
+htmlcov/
