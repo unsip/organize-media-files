@@ -45,8 +45,10 @@ class organaize_tester:
         pattern = '/storage/music/{artist}/{album}/{tracknumber}_{title}'
         expected = '/storage/music/some_artist_{0}/some_album_{0}/1_some_title_{0}'.format(file.suffix[1:])
         
+        meta_fields = omfcore.filter_meta(pattern, omfcore.METADATA_FIELDS)
+
         os.chdir(str(file.parents[0]))
-        mutagen_obj = omfcore.extractor(str(file.name), omfcore.METADATA_FIELDS)
+        mutagen_obj = omfcore.extractor(str(file.name), meta_fields)
         output = omfcore.build_path(mutagen_obj.metadata, pattern)
 
         assert output == expected

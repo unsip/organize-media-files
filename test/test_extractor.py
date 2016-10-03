@@ -46,8 +46,11 @@ class extractor_tester:
         ]
       )
     def known_meta_test(self, filename, title, artist, album, tracknumber):
+        requested_pattern = '{artist}/{title}/{album}/{tracknumber}'
+        meta_fields = omfcore.filter_meta(requested_pattern, omfcore.METADATA_FIELDS)
+
         os.chdir(str(pathlib.Path(__file__).parent / 'data'))   # Is this method ok? Have to change dir,
-        omfcore.extractor(filename, omfcore.METADATA_FIELDS)    # coz mutagen can't take path in any form
+        omfcore.extractor(filename, meta_fields)    # coz mutagen can't take path in any form
         
         assert title == omfcore.extractor.metadata['title']
         assert artist == omfcore.extractor.metadata['artist']
