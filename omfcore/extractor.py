@@ -56,15 +56,15 @@ class extractor:
                 except KeyError:                             
                     strg = ' '.join((
                             '\n'
-                          , 'File:\n'
-                          , '{}\n'.format(filename)
+                          , 'File:'
+                          , '{}.\n'.format(filename)
                           , 'Metatag `{}` is missing.\n'.format(field)
                         ))
                     raise self.FileError(strg)
                 except TypeError:
                     strg = ' '.join((
                         '\n'
-                      , 'File:\n'
+                      , 'File:'
                       , '{}\n'.format(filename)
                       , 'Invalid filetype to extract meta from.\n'
                     ))

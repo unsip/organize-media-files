@@ -96,7 +96,7 @@ class Application(object):
             elif user_conf:
                 self.config = user_conf
             else:
-                raise RuntimeError('No config file has been found/given')
+                raise RuntimeError('No config file has been found/given.')
 
         # Sanity check
         assert self.config is not None
