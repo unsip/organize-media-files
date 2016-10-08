@@ -57,6 +57,9 @@ def dispatch(files_list, pattern, force):
         except (extractor.FileError) as ex:
             if not force:
                 raise RuntimeError(str(ex))
+            else:
+                print(str(ex))
+                continue
 
         # Building path and expanding '~' symbols in it.
         complete_path = pathlib.Path(build_path(extractor.metadata, pattern))
@@ -68,25 +71,32 @@ def dispatch(files_list, pattern, force):
 
 def dry_run(paths, force):
     ''' Displays behaviour in a particular case. '''
+    print('')
     for pair in paths:
         if pair[1].exists() and not force:
             print('{}:'.format(pair[0].name))
             
             strg = ' '.join((
-                    '   '
-                  , '    Warning, file {} already exists'.format(str(pair[1].name))
+                    'Warning, file {} already exists'.format(str(pair[1].name))
                   , 'and won\'t be processed,' 
                   , 'unless --force specified.'
                 ))
             print(strg)
         else:
-            print('    Moving {0} to {1}'.format(pair[0], pair[1]))
+            strg = ' '.join((
+                    ''                   
+                  , 'Moving:\n'
+                  , '{}\n'.format(pair[0])
+                  , 'To:\n'
+                  , '{}\n'.format(pair[1])
+                ))
+            print(strg)
 
 def action_run(paths, force):
     ''' Core process of moving files. '''
     for pair in paths:
         if pair[1].exists() and not force:
-            raise RuntimeError('Same file {} exists and --force not specified'.format(str(pair[0])))
+            raise RuntimeError('Same file {} exists. Use --force to override.'.format(str(pair[0])))
 
     for pair in paths:
         try:

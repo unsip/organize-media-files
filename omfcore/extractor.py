@@ -54,9 +54,21 @@ class extractor:
                     fixed_data = self.__fix_metafields(file[field][0])
                     self.metadata[field] = fixed_data
                 except KeyError:                             
-                    raise self.FileError('Metatag `{}` is missing.'.format(field))
+                    strg = ' '.join((
+                            '\n'
+                          , 'File:\n'
+                          , '{}\n'.format(filename)
+                          , 'Metatag `{}` is missing.\n'.format(field)
+                        ))
+                    raise self.FileError(strg)
                 except TypeError:
-                    raise self.FileError('Invalid filetype to extract meta from.')
+                    strg = ' '.join((
+                        '\n'
+                      , 'File:\n'
+                      , '{}\n'.format(filename)
+                      , 'Invalid filetype to extract meta from.\n'
+                    ))
+                    raise self.FileError(strg)
 
         except (mutagen.MutagenError) as ex:
             raise self.FileError(str(ex))
