@@ -9,12 +9,9 @@ TODO
 ============
 1. Create documentation.
 2. Test more formats.
-3. Make output more readable.
-4. Fix config-picking logic.
-5. Make a package.
-6. Add bash-completion for patterns.
+3. Make a package.
+4. Add bash-completion for patterns.
 
 Some warnings for future
 ============
 1. OMF dispatching files using pathlib.Path(pattern-specified-path). Such behavior can lead to usage misunderstandings.
-2. It's up to user to write pattern correctly. Wry pattern is a user fault, not omf's. But in case omf extracting wrong metafields - have to fix `METADATA_FIELDS` list in core_varaibles.py.
