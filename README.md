@@ -11,6 +11,8 @@ TODO
 2. Test more formats.
 3. Make a package.
 4. Add bash-completion for patterns.
+5. Add default pattern picking.
+6. Append extensions to the end of dispathed file.
 
 Some warnings for future
 ============
