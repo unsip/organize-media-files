@@ -33,11 +33,11 @@ setup(
   , description        = 'Organize Media Files'
   , long_description   = readfile('README.md')
   , license            = 'GPL-3'
-  , url                = 'http://github.com/zaufi/organize-media-files'
+  , url                = 'https://github.com/IsaacMother/organize-media-files'
   , keywords           = ['music collection pranizer']
   , platforms          = ['all']
-  , maintainer         = 'Alex Turbov'
-  , maintainer_email   = 'i.zaufi@gmail.com'
+  , maintainer         = 'Andrey Turbov'
+  , maintainer_email   = 'andrey.turbov@gmail.com'
   , entry_points       = {
         'console_scripts': [
             'omf = omfcore.cli:main'
