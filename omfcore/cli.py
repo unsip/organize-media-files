@@ -57,7 +57,8 @@ class Application(object):
           , help='ignore inconsistencies or/and overwrite files'
           )
         parser.add_argument(
-            'pattern'
+            '-p'
+          , '--pattern'
           , metavar='PATTERN-NAME'
           , help='Use given pattern to dispatch incoming files'
           )
@@ -104,7 +105,7 @@ class Application(object):
         # Add other parameters from CLI
         self.config.dry_run = args.dry_run
         self.config.files = list(args.file)
-        self.config.pattern = args.pattern
+        if args.pattern: self.config.pattern = args.pattern
         self.config.force = args.force
 
         # Check for valid config
