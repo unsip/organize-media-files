@@ -31,7 +31,7 @@ setup(
     name               = 'organize-media-files'
   , version            = omfcore.__version__
   , description        = 'Organize Media Files'
-  , long_description   = readfile('README.md')
+  , long_description   = readfile('README.rst')
   , license            = 'GPL-3'
   , url                = 'https://github.com/IsaacMother/organize-media-files'
   , keywords           = ['music collection pranizer']
