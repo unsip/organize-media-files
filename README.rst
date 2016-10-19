@@ -1,6 +1,6 @@
 What is OMF?
 ============
-Organize Media Files (OMF) is a command-line utility, which helps user to dispatch unsorted media files according meta data tags and configurable rules. OMF using `Mutagen <https://mutagen.readthedocs.io>`_ to handle audio files. Later more media files support would be added.
+Organize Media Files (OMF) is a command-line utility, which helps user to dispatch unsorted media files according meta data tags and configurable rules. OMF is using `Mutagen <https://mutagen.readthedocs.io>`_ to handle audio files. Later more media files support would be added.
 
 Installation
 ============
@@ -10,18 +10,18 @@ Using \ *pip install*\ \: ::
 
 Getting started
 ===============
-After successfull installation, you can see OMF doing it's job by heading into \ */example*\ , which is located in OMF root directory. ::
+After successfull installation, you can see OMF doing it's job by heading into \ *example/*\ , which is located in OMF top source tree directory. ::
 
-    $ cd ../organize-media-files/example/
+    $ cd example/
 
-Here you can see \ **example.conf**\  and some sample audio files, containing filled metatags. Type: ::
+Here you can see `example.conf<https://github.com/IsaacMother/organize-media-files/blob/master/example/example.conf>`_ and some sample audio files, containing filled metatags. Type: ::
 
     $ omf -d -c example.conf sample_mp3.mp3
 
     Moving:
-    example/sample_flac.flac
+    example/sample_mp3.mp3
     To:
-    /home/hostname_here/omf_example/some_artist_mp3 - some_title_mp3
+    /tmp/omf_example/some_artist_mp3 - some_title_mp3
 
 You can see OMF running in \ ``--dry-run``\ . It is designed to prevent unexpected behavior and to show user what is going to happen in specified configuration. Before rushing OMF usage, don't forget to set up proper configuration using .conf files.
 
@@ -39,9 +39,9 @@ Usage
 =====
 Basic OMF usage is: ::
 
-    $ omf \ ``filename``\ 
+    $ omf filename_1 filename_2 
 
-In this case \ ``filename``\  will be dispatched according to the default pattern in \ **user.conf**\ .
+In this case \ ``filename_1``\  and\ ``filename_2``\  will be dispatched according to the default pattern in \ **user.conf**\ .
 
 Options:
     * \ ``-h, --help``\  - show help message.
