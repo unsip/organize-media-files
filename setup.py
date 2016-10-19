@@ -38,6 +38,9 @@ setup(
   , platforms          = ['all']
   , maintainer         = 'Andrey Turbov'
   , maintainer_email   = 'andrey.turbov@gmail.com'
+  , data_files         = [('contrib/user.conf', ['~/.omfrc/user.conf'])
+                          ('contrib/system.conf', ['/etc/omf_system.conf'])
+      ]
   , entry_points       = {
         'console_scripts': [
             'omf = omfcore.cli:main'

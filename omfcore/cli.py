@@ -29,7 +29,7 @@ from .config import config
 from .extractor import extractor
 from .organaizer import dispatch, action_run, dry_run
 
-SYSTEM_CONFIG = '/etc/system.conf'
+SYSTEM_CONFIG = '/etc/omf_system.conf'
 USER_CONF = '.omfrc/user.conf'
 
 class Application(object):
