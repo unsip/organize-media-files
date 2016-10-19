@@ -41,7 +41,7 @@ Basic OMF usage is: ::
 
     $ omf filename_1 filename_2 
 
-In this case \ ``filename_1``\  and\ ``filename_2``\  will be dispatched according to the default pattern in \ **user.conf**\ .
+In this case \ ``filename_1``\  and \ ``filename_2``\  will be dispatched according to the default pattern in \ **user.conf**\ .
 
 Options:
     * \ ``-h, --help``\  - show help message.
