@@ -57,7 +57,7 @@ setup(
       , 'Topic :: Multimedia :: Sound/Audio'
       , 'Topic :: Utilities'
       ]
-  , install_requires   = []
+  , install_requires   = ['mutagen']
   , test_suite         = 'test'
   , tests_require      = ['pytest']
   , zip_safe           = True
