@@ -14,7 +14,7 @@ After successfull installation, you can see OMF doing it's job by heading into \
 
     $ cd example/
 
-Here you can see `example.conf<https://github.com/IsaacMother/organize-media-files/blob/master/example/example.conf>`_ and some sample audio files, containing filled metatags. Type: ::
+Here you can see `example.conf <https://github.com/IsaacMother/organize-media-files/blob/master/example/example.conf>`_ and some sample audio files, containing filled metatags. Type: ::
 
     $ omf -d -c example.conf sample_mp3.mp3
 
