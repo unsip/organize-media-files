@@ -8,9 +8,26 @@ Using \ *pip install*\ \: ::
     
     $ pip install omf
 
+Getting started
+===============
+After successfull installation, you can see OMF doing it's job by heading into \ */example*\ , which is located in OMF root directory. ::
+
+    $ cd ../organize-media-files/example/
+
+Here you can see \ **example.conf**\  and some sample audio files, containing filled metatags. Type: ::
+
+    $ omf -d -c example.conf sample_mp3.mp3
+
+    Moving:
+    example/sample_flac.flac
+    To:
+    /home/hostname_here/omf_example/some_artist_mp3 - some_title_mp3
+
+You can see OMF running in \ ``--dry-run``\ . It is designed to prevent unexpected behavior and to show user what is going to happen in specified configuration. Before rushing OMF usage, don't forget to set up proper configuration using .conf files.
+
 Configuration files
 ===================
-After successful installation, user have to setup config files. OMF providing sample \ **system.conf**\  and \ **user.conf**\ . Configuration file's consist of two sections. \ *[patterns]*\  section is where user set's up dispatch path's - a \ *pattern*\ , which must be given in the form of absolute path's (\'~\' may be used to specify \ *home*\  directory) with inclusion of ``{metatags}``. 
+OMF providing sample \ **system.conf**\  and \ **user.conf**\ . Configuration file's consist of two sections. \ *[patterns]*\  section is where user set's up dispatch path's - a \ *pattern*\ , which must be given in the form of absolute path's (\'~\' may be used to specify \ *home*\  directory) with inclusion of ``{metatags}``. 
 
 Example audio file pattern in UNIX system\: ::
 
@@ -20,10 +37,21 @@ Valid ``{metatags}`` for audio file are: \ ``{artist}``\ , \ ``{title}``\ , \ ``
 
 Usage
 =====
-pass
+Basic OMF usage is: ::
+
+    $ omf \ ``filename``\ 
+
+In this case \ ``filename``\  will be dispatched according to the default pattern in \ **user.conf**\ .
+
+Options:
+    * \ ``-h, --help``\  - show help message.
+    * \ ``-d, --dry-run``\  - run OMF without actually moving files and print verbose information.
+    * \ ``-c FILE, --config FILE``\  - specify an alternative configuration file.
+    * \ ``-f, --force``\  - ignore inconsistencies or/and overwrite files (for example, if a file, in a given list of filenames, with the same name already exists, overwrite it).
+    * \ ``-p PATTERN-NAME, --pattern PATTERN_NAME``\  - explicitly specify dispatch pattern.
 
 TODO
-============
+====
 1. Create documentation.
 2. Test more formats.
 3. Make a package.
