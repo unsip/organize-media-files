@@ -6,7 +6,7 @@ Installation
 ============
 Using \ *pip install*\ \: ::
     
-    $ pip install omf
+    $ pip install organize_media_files
 
 Getting started
 ===============
