@@ -27,7 +27,7 @@ You can see OMF running in \ ``--dry-run``\ . It is designed to prevent unexpect
 
 Configuration files
 ===================
-OMF providing sample \ **system.conf**\  and \ **user.conf**\ . Configuration file's consist of two sections. \ *[patterns]*\  section is where user set's up dispatch path's - a \ *pattern*\ , which must be given in the form of absolute path's (\'~\' may be used to specify \ *home*\  directory) with inclusion of ``{metatags}``. 
+OMF providing sample \ **system.conf**\  and \ **user.conf**\ , both located at \ */etc/.omfrc/*\  directory. Configuration file's consist of two sections. \ *[patterns]*\  section is where user set's up dispatch path's - a \ *pattern*\ , which must be given in the form of absolute path's (\'~\' may be used to specify \ *home*\  directory) with inclusion of ``{metatags}``. 
 
 Example audio file pattern in UNIX system\: ::
 
@@ -53,10 +53,9 @@ Options:
 TODO
 ====
 1. Create documentation.
-2. Test more formats.
-3. Make a package.
-4. Add bash-completion for patterns.
-5. Append extensions to the end of dispathed file.
+2. Figure out how to move user.conf to home directory (got bug on it).
+3. Add bash-completion for patterns.
+4. Append extensions to the end of dispathed file.
 
 Some warnings for future
 ========================

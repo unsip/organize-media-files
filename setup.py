@@ -38,8 +38,8 @@ setup(
   , platforms          = ['all']
   , maintainer         = 'Andrey Turbov'
   , maintainer_email   = 'andrey.turbov@gmail.com'
-  , data_files         = [('contrib/user.conf', ['~/.omfrc/user.conf']),
-                          ('contrib/system.conf', ['/etc/omf_system.conf'])
+  , data_files         = [('/etc/.omfrc/', ['contrib/user.conf']),
+                          ('/etc/.omfrc/', ['contrib/system.conf'])
       ]
   , entry_points       = {
         'console_scripts': [
