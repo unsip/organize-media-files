@@ -90,8 +90,8 @@ class Application(object):
                 user_conf = config(user_cfg_file)
 
             if system_conf and user_conf:
-                self.config = system_conf
-                self.config.merge_from(user_conf)
+                self.config = user_conf
+                self.config.merge_from(system_conf)
             elif system_conf:
                 self.config = system_conf
             elif user_conf:
