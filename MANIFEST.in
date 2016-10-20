@@ -1,3 +1,2 @@
 include test/data/*
-include example/*
-include contrib/*
+include example

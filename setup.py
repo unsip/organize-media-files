@@ -20,7 +20,7 @@
 #
 
 from setuptools import setup, find_packages
-
+from glob import glob
 import omfcore
 
 def readfile(filename):
@@ -38,8 +38,8 @@ setup(
   , platforms          = ['all']
   , maintainer         = 'Andrey Turbov'
   , maintainer_email   = 'andrey.turbov@gmail.com'
-  , data_files         = [('/etc/.omfrc/', ['contrib/user.conf']),
-                          ('/etc/.omfrc/', ['contrib/system.conf'])
+  , data_files         = [('/etc/.omfrc/', glob('contrib/*.conf')),
+                          ('/etc/.omfrc/example', glob('example/*'))
       ]
   , entry_points       = {
         'console_scripts': [
