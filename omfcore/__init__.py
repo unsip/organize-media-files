@@ -23,6 +23,6 @@ from .organaizer import build_path, dispatch, action_run, dry_run, filter_meta
 from .core_varaibles import METADATA_FIELDS
 
 # Set PEP396 version attribute
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 SYSCONFDIR = '/etc/organize-media-files'
