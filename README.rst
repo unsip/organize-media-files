@@ -10,7 +10,7 @@ Using \ *pip install*\ \: ::
 
 Getting started
 ===============
-After successfull installation, you can see OMF doing it's job by heading into \ *example/*\ , which is located in OMF top source tree directory. ::
+After successfull installation, you can see OMF doing it's job by heading into \ *example/*\ , which is located in \ */etc/.omfrc/*\ . ::
 
     $ cd example/
 
