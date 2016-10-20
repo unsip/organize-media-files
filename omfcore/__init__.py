@@ -24,5 +24,3 @@ from .core_varaibles import METADATA_FIELDS
 
 # Set PEP396 version attribute
 __version__ = '1.0.1'
-
-SYSCONFDIR = '/etc/organize-media-files'
