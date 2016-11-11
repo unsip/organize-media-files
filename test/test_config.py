@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-''' Unit tests for `config` module '''
+""" Unit tests for `config` module. """
 
 # Standard imports
 import pathlib
@@ -26,6 +26,7 @@ import pytest
 # Project-specific imports
 import omfcore
 from context import make_data_filename
+
 
 class config_tester:
 
@@ -37,29 +38,28 @@ class config_tester:
         self.na.chmod(0o644)
 
     @pytest.mark.parametrize(
-        'filename, exception_type'
-      , [
-            ('non_existing.conf', omfcore.config.FileError)
-          , (make_data_filename('non_accessible.conf'), omfcore.config.FileError)
-          , (make_data_filename('wry.conf'), omfcore.config.WryConfigError)
-          , (make_data_filename('wry_1.conf'), omfcore.config.WryConfigError)
-          , (make_data_filename('wry_2.conf'), omfcore.config.WryConfigError)
-          , (make_data_filename('wry_3.conf'), omfcore.config.WryConfigError)
-          , (make_data_filename('wry_4.conf'), omfcore.config.WryConfigError)
+        'filename, exception_type', [
+            ('non_existing.conf', omfcore.config.FileError),
+            (make_data_filename('non_accessible.conf'), omfcore.config.FileError),
+            (make_data_filename('wry.conf'), omfcore.config.WryConfigError),
+            (make_data_filename('wry_1.conf'), omfcore.config.WryConfigError),
+            (make_data_filename('wry_2.conf'), omfcore.config.WryConfigError),
+            (make_data_filename('wry_3.conf'), omfcore.config.WryConfigError),
+            (make_data_filename('wry_4.conf'), omfcore.config.WryConfigError)
         ]
-      )
-    def open_config_test(self, filename, exception_type): 
+    )
+    def open_config_test(self, filename, exception_type):
         with pytest.raises(exception_type) as ex:
-            omfcore.config(filename) 
+            omfcore.config(filename)
 
     def config_test(self):
         system_conf = omfcore.config(make_data_filename('system.conf'))
         user_conf = omfcore.config(make_data_filename('user.conf'))
-        
+
         assert system_conf.pattern == 'satu'
         assert isinstance(system_conf.patterns, dict)
         assert len(system_conf.patterns) == 2
-        
+
         assert user_conf.pattern == 'dua'
         assert isinstance(user_conf.patterns, dict)
         assert len(user_conf.patterns) == 2

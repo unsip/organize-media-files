@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-'''Unittests for metadata extracting.'''
+"""Unittests for metadata extracting."""
 
 # Standart imports
 import pathlib
@@ -28,8 +28,9 @@ import os
 import omfcore
 from context import make_data_filename
 
+
 class extractor_tester:
-    
+
     def setup(self):
         self.na = make_data_filename('non-accessable.flac')
         self.na.chmod(0)
@@ -38,20 +39,25 @@ class extractor_tester:
         self.na.chmod(0o644)
 
     @pytest.mark.parametrize(
-        'filename, title, artist, album, tracknumber'
-      , [
-            ('sample_flac.flac', 'some_title_flac', 'some_artist_flac', 'some_album_flac', '1')
-          , ('sample_mp3.mp3', 'some_title_mp3', 'some_artist_mp3', 'some_album_mp3', '1')
-          , ('sample_ogg.ogg', 'some_title_ogg', 'some_artist_ogg', 'some_album_ogg', '1')
+        'filename, title, artist, album, tracknumber', [
+            ('sample_flac.flac', 'some_title_flac',
+                'some_artist_flac', 'some_album_flac', '1'),
+            ('sample_mp3.mp3', 'some_title_mp3',
+                'some_artist_mp3', 'some_album_mp3', '1'),
+            ('sample_ogg.ogg', 'some_title_ogg',
+                'some_artist_ogg', 'some_album_ogg', '1')
         ]
-      )
+    )
     def known_meta_test(self, filename, title, artist, album, tracknumber):
         requested_pattern = '{artist}/{title}/{album}/{tracknumber}'
-        meta_fields = omfcore.filter_meta(requested_pattern, omfcore.METADATA_FIELDS)
+        meta_fields = omfcore.filter_meta(
+            requested_pattern, omfcore.METADATA_FIELDS)
 
-        os.chdir(str(pathlib.Path(__file__).parent / 'data'))   # Is this method ok? Have to change dir,
-        omfcore.extractor(filename, meta_fields)    # coz mutagen can't take path in any form
-        
+        # Is this method ok? Have to change dir,
+        os.chdir(str(pathlib.Path(__file__).parent / 'data'))
+        # coz mutagen can't take path in any form
+        omfcore.extractor(filename, meta_fields)
+
         assert title == omfcore.extractor.metadata['title']
         assert artist == omfcore.extractor.metadata['artist']
         assert album == omfcore.extractor.metadata['album']

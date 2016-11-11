@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-'''Extract music-file metadata'''
+""" Extract music-file metadata. """
 
 # Standart imports
 import os
@@ -34,7 +34,7 @@ class extractor:
     metadata = {}
 
     def __fix_metafields(self, data):
-        ''' Fixing metatag data in case of separator occurance.'''
+        """ Fixing metatag data in case of separator occurance. """
         while (os.sep in data):
             data = data.replace(os.sep, '_')
 
@@ -45,32 +45,31 @@ class extractor:
             assert False, 'Invalid parameter type.'
 
         try:
-            file = mutagen.File(filename, easy = True)
+            file = mutagen.File(filename, easy=True)
 
             for field in metadata_fields:
                 try:
                     # mutagen obj is dict-like, but values stored as list of one
-                    # string (dunno why), so we need to refer to the zero element
+                    # string (dunno why), so we need to refer to the zero
+                    # element
                     fixed_data = self.__fix_metafields(file[field][0])
                     self.metadata[field] = fixed_data
-                except KeyError:                             
-                    strg = ' '.join((
-                            '\n'
-                          , 'File:'
-                          , '{}.\n'.format(filename)
-                          , 'Metatag `{}` is missing.\n'.format(field)
-                        ))
-                    raise self.FileError(strg)
-                except TypeError:
-                    strg = ' '.join((
-                        '\n'
-                      , 'File:'
-                      , '{}\n'.format(filename)
-                      , 'Invalid filetype to extract meta from.\n'
+                except KeyError:
+                    emsg = ' '.join((
+                        '\n',
+                        'File:',
+                        '{}.\n'.format(filename),
+                        'Metatag `{}` is missing.\n'.format(field)
                     ))
-                    raise self.FileError(strg)
+                    raise self.FileError(emsg)
+                except TypeError:
+                    emsg = ' '.join((
+                        '\n',
+                        'File:',
+                        '{}\n'.format(filename),
+                        'Invalid filetype to extract meta from.\n'
+                    ))
+                    raise self.FileError(emsg)
 
         except (mutagen.MutagenError) as ex:
             raise self.FileError(str(ex))
-
-

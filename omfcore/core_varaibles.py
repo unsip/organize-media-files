@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-''' Project-specific variables and objects. '''
+""" Project-specific variables and objects. """
 
-METADATA_FIELDS = ('album', 'title', 'artist', 'tracknumber'
-                    , 'genre', 'date', 'encoder')   # Add more fields here
+METADATA_FIELDS = ('album', 'title', 'artist', 'tracknumber',
+                   'genre', 'date', 'encoder')   # Add more fields here

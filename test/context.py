@@ -18,9 +18,7 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-'''
-    Helper functions for tests
-'''
+""" Helper functions for tests. """
 
 # Standard imports
 import pathlib
@@ -28,8 +26,10 @@ import pathlib
 
 _data_dir = pathlib.Path(__file__).parent / 'data'
 
+
 def make_data_filename(filename):
     return _data_dir / filename
+
 
 def data_dir_base():
     return _data_dir
