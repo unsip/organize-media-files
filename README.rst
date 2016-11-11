@@ -54,6 +54,7 @@ TODO
 ====
 1. Create documentation.
 2. Add bash-completion for patterns.
+3. Put extension into placeholders {ext}.
 
 Some warnings for future
 ========================
