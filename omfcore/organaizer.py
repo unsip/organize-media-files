@@ -29,7 +29,7 @@ from .extractor import extractor
 from .core_varaibles import METADATA_FIELDS
 
 
-def build_path(metadata, pattern):
+def build_path(metadata, suffix, pattern):
     """ Build path for music file, according to given meta and pattern. """
     assert isinstance(metadata, dict), \
         'Invalid argument, should be dict. Review your code.'
@@ -39,6 +39,8 @@ def build_path(metadata, pattern):
     for field in metadata:
         pattern_to_find = '{' + field + '}'
         pattern = pattern.replace(pattern_to_find, metadata[field])
+    
+    pattern = pattern + suffix
 
     return pattern
 
@@ -66,7 +68,8 @@ def dispatch(files_list, pattern, force):
                 print(str(ex))
                 continue
         # Building path and expanding '~' symbols in it.
-        complete_path = pathlib.Path(build_path(extractor.metadata, pattern))
+        complete_path = pathlib.Path(
+                build_path(extractor.metadata, file.suffix, pattern))
         complete_path = complete_path.expanduser()
 
         paths.append((file, complete_path))
