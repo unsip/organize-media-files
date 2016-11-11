@@ -10,16 +10,16 @@ Using \ *pip install*\ \: ::
 
 Getting started
 ===============
-After successfull installation, you can see OMF doing it's job by heading into \ *example/*\ , which is located in \ */etc/.omfrc/*\ . ::
+After successfull installation, you can see OMF doing it's job by heading into \ *example/*\ , which is located in \ */usr/omf_example/*\ . ::
 
-    $ cd example/
+    $ cd omf_example/
 
 Here you can see `example.conf <https://github.com/IsaacMother/organize-media-files/blob/master/example/example.conf>`_ and some sample audio files, containing filled metatags. Type: ::
 
     $ omf -d -c example.conf sample_mp3.mp3
 
     Moving:
-    example/sample_mp3.mp3
+    omf_example/sample_mp3.mp3
     To:
     /tmp/omf_example/some_artist_mp3 - some_title_mp3
 
