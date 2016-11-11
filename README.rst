@@ -53,9 +53,7 @@ Options:
 TODO
 ====
 1. Create documentation.
-2. Figure out how to move user.conf to home directory (got bug on it).
-3. Add bash-completion for patterns.
-4. Append extensions to the end of dispathed file.
+2. Add bash-completion for patterns.
 
 Some warnings for future
 ========================
