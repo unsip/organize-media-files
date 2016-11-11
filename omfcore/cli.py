@@ -29,48 +29,47 @@ from .config import config
 from .extractor import extractor
 from .organaizer import dispatch, action_run, dry_run
 
-SYSTEM_CONFIG = '/etc/.omfrc/system.conf'
-USER_CONF = '/etc/.omfrc/user.conf'
+SYSTEM_CONFIG = '/etc/omf.conf'
+USER_CONF = '.omfrc'
+
 
 class Application(object):
 
     def __init__(self):
         parser = argparse.ArgumentParser(description='Organize Media Files')
         parser.add_argument(
-            '-d'
-          , '--dry-run'
-          , action='store_true'
-          , default=False
-          , help='Do not do the job, just show whats going to be done'
-          )
+            '-d',
+            '--dry-run',
+            action='store_true',
+            default=False,
+            help='Do not do the job, just show whats going to be done'
+        )
         parser.add_argument(
-            '-c'
-          , '--config'
-          , help='specify an alternative configuration file'
-          , metavar='FILE'
-          )
+            '-c',
+            '--config',
+            help='specify an alternative configuration file',
+            metavar='FILE'
+        )
         parser.add_argument(
-            '-f'
-          , '--force'
-          , action='store_true'
-          , default=False
-          , help='ignore inconsistencies or/and overwrite files'
-          )
+            '-f',
+            '--force',
+            action='store_true',
+            default=False,
+            help='ignore inconsistencies or/and overwrite files'
+        )
         parser.add_argument(
-            '-p'
-          , '--pattern'
-          , metavar='PATTERN-NAME'
-          , help='Use given pattern to dispatch incoming files'
-          )
+            '-p',
+            '--pattern',
+            metavar='PATTERN-NAME',
+            help='Use given pattern to dispatch incoming files'
+        )
         parser.add_argument(
-            'file'
-          , metavar='INPUT-FILE'
-          , nargs='+'
-          , help='files to dispatch using a pattern'
-          )
+            'file',
+            metavar='INPUT-FILE',
+            nargs='+',
+            help='files to dispatch using a pattern'
+        )
         args = parser.parse_args()
-
-        #print('args={}'.format(repr(args)))
 
         if args.config is not None:
             cfg_file = pathlib.Path(args.config)
@@ -97,7 +96,9 @@ class Application(object):
             elif user_conf:
                 self.config = user_conf
             else:
-                raise RuntimeError('No config file has been found/given.')
+                emsg = 'No config file has been found/given. ' \
+                    'Create `.omfrc` in your $HOME directory.'
+                raise RuntimeError(emsg)
 
         # Sanity check
         assert self.config is not None
@@ -105,21 +106,23 @@ class Application(object):
         # Add other parameters from CLI
         self.config.dry_run = args.dry_run
         self.config.files = list(args.file)
-        if args.pattern: self.config.pattern = args.pattern
+        if args.pattern:
+            self.config.pattern = args.pattern
         self.config.force = args.force
 
         # Check for valid config
         self.config.validate()
 
     def run(self):
-        paths = dispatch(self.config.files, self.config.pattern, self.config.force)
-
-        #print(repr(paths))
+        paths = dispatch(self.config.files,
+                         self.config.pattern,
+                         self.config.force)
 
         if self.config.dry_run:
             dry_run(paths, self.config.force)
         else:
             action_run(paths, self.config.force)
+
 
 def main():
     try:
