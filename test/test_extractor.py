@@ -25,9 +25,8 @@ import pytest
 import os
 
 # Project-specific imports
-import omfcore
 from context import make_data_filename
-
+import omfcore
 
 class extractor_tester:
 

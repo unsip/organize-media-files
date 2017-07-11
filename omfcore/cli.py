@@ -20,117 +20,95 @@
 
 # Standard imports
 import argparse
+import click
+import exitstatus
 import os
 import pathlib
 import sys
 
 # Project-specific imports
-from .config import config
+from .config import config as config_holder
 from .extractor import extractor
-from .organaizer import dispatch, action_run, dry_run
+from .organaizer import dispatch, apply_move 
 
 SYSTEM_CONFIG = '/etc/omf.conf'
 USER_CONF = '.omfrc'
 
+@click.command()
+@click.option(
+    '--dry-run',
+    '-d',
+    is_flag=True,
+    default=False,
+    help='Do not do the job, just show whats going to be done'
+)
+@click.option(
+    '--config',
+    '-c',
+    metavar='FILENAME',
+    default=None,
+    help='Specify an alternative configuration file',
+)
+@click.option(
+    '--force',
+    '-f',
+    is_flag=True,
+    default=False,
+    help='Ignore inconsistencies or/and overwrite files'
+)
+@click.option(
+    '--pattern',
+    '-p',
+    metavar='PATTERN-STRING',
+    help='Use given pattern to dispatch incoming files'
+)
+@click.argument(
+    'input-file',
+    nargs=-1,
+)
+def cli(dry_run, config, force, pattern, input_file):
+    if config is not None:
+        cfg_file = pathlib.Path(config)
+        _config = config_holder(cfg_file)
+    else:
+        # Check if system-wide config is here
+        system_cfg_file = pathlib.Path(SYSTEM_CONFIG)
+        system_conf = None
+        if system_cfg_file.exists():
+            system_conf = config_holder(system_cfg_file)
 
-class Application(object):
+        # Check user config
+        user_cfg_file = pathlib.Path(pathlib.Path.home() / USER_CONF)
 
-    def __init__(self):
-        parser = argparse.ArgumentParser(description='Organize Media Files')
-        parser.add_argument(
-            '-d',
-            '--dry-run',
-            action='store_true',
-            default=False,
-            help='Do not do the job, just show whats going to be done'
-        )
-        parser.add_argument(
-            '-c',
-            '--config',
-            help='specify an alternative configuration file',
-            metavar='FILE'
-        )
-        parser.add_argument(
-            '-f',
-            '--force',
-            action='store_true',
-            default=False,
-            help='ignore inconsistencies or/and overwrite files'
-        )
-        parser.add_argument(
-            '-p',
-            '--pattern',
-            metavar='PATTERN-NAME',
-            help='Use given pattern to dispatch incoming files'
-        )
-        parser.add_argument(
-            'file',
-            metavar='INPUT-FILE',
-            nargs='+',
-            help='files to dispatch using a pattern'
-        )
-        args = parser.parse_args()
+        user_conf = None
+        if user_cfg_file.exists():
+            user_conf = config_holder(user_cfg_file)
 
-        if args.config is not None:
-            cfg_file = pathlib.Path(args.config)
-            self.config = config(cfg_file)
+        if system_conf and user_conf:
+            _config = user_conf
+            _config.merge_from(system_conf)
+        elif system_conf:
+            _config = system_conf
+        elif user_conf:
+            _config = user_conf
         else:
-            # Check if system-wide config is here
-            system_cfg_file = pathlib.Path(SYSTEM_CONFIG)
-            system_conf = None
-            if system_cfg_file.exists():
-                system_conf = config(system_cfg_file)
+            emsg = 'No config file has been found/given. ' \
+                'Create `.omfrc` in your $HOME directory.'
+            raise RuntimeError(emsg)
 
-            # Check user config
-            user_cfg_file = pathlib.Path(pathlib.Path.home() / USER_CONF)
+    if pattern:
+        _config.pattern = pattern
 
-            user_conf = None
-            if user_cfg_file.exists():
-                user_conf = config(user_cfg_file)
-
-            if system_conf and user_conf:
-                self.config = user_conf
-                self.config.merge_from(system_conf)
-            elif system_conf:
-                self.config = system_conf
-            elif user_conf:
-                self.config = user_conf
-            else:
-                emsg = 'No config file has been found/given. ' \
-                    'Create `.omfrc` in your $HOME directory.'
-                raise RuntimeError(emsg)
-
-        # Sanity check
-        assert self.config is not None
-
-        # Add other parameters from CLI
-        self.config.dry_run = args.dry_run
-        self.config.files = list(args.file)
-        if args.pattern:
-            self.config.pattern = args.pattern
-        self.config.force = args.force
-
-        # Check for valid config
-        self.config.validate()
-
-    def run(self):
-        paths = dispatch(self.config.files,
-                         self.config.pattern,
-                         self.config.force)
-
-        if self.config.dry_run:
-            dry_run(paths, self.config.force)
-        else:
-            action_run(paths, self.config.force)
-
+    paths = dispatch(input_file, _config.pattern, force)
+    apply_move(paths, force, dry_run) 
+    
+    return exitstatus.ExitStatus.success
 
 def main():
     try:
-        a = Application()
-        a.run()
+        return cli()
     except KeyboardInterrupt:
-        sys.exit(1)
+        return exitstatus.ExitStatus.failure
     except RuntimeError as ex:
         print('*** Error: {}'.format(ex))
-        sys.exit(1)
-    sys.exit(0)
+        return exitstatus.ExitStatus.failure

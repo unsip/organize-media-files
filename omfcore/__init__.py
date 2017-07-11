@@ -17,10 +17,5 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from .config import config
-from .extractor import extractor
-from .organaizer import build_path, dispatch, action_run, dry_run, filter_meta
-from .core_varaibles import METADATA_FIELDS
-
 # Set PEP396 version attribute
 __version__ = '1.0.1'

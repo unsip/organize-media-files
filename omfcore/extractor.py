@@ -22,6 +22,7 @@
 # Standart imports
 import os
 import pathlib
+
 # Project-specific imports
 import mutagen
 
@@ -41,11 +42,10 @@ class extractor:
         return data
 
     def __init__(self, filename, metadata_fields):
-        if not isinstance(filename, str):
-            assert False, 'Invalid parameter type.'
+        assert isinstance(filename, pathlib.Path), 'Invalid parameter type.'
 
         try:
-            file = mutagen.File(filename, easy=True)
+            file = mutagen.File(str(filename), easy=True)
 
             for field in metadata_fields:
                 try:

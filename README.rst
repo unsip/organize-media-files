@@ -52,9 +52,11 @@ Options:
 
 TODO
 ====
-1. Create documentation.
-2. Add bash-completion for patterns.
-3. Put extension into placeholders {ext}.
+1. Add bash-completion for patterns.
+2. Put extension into placeholders {ext}.
+3. Substitute argparse to click.
+4. Implement omfedit.
+5. 
 
 Some warnings for future
 ========================

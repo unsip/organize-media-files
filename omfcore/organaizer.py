@@ -20,6 +20,8 @@
 """ Path-organization functions. """
 
 # Standart imports
+import collections
+import itertools
 import os
 import pathlib
 import shutil
@@ -28,6 +30,7 @@ import shutil
 from .extractor import extractor
 from .core_varaibles import METADATA_FIELDS
 
+src_dst_pair = collections.namedtuple('src_dst_pair', ['src', 'dst'])
 
 def build_path(metadata, suffix, pattern):
     """ Build path for music file, according to given meta and pattern. """
@@ -49,74 +52,67 @@ def dispatch(files_list, pattern, force):
     """ Construct list of tuples containing filename's and new path for them. """
     paths = []
 
-    for file in files_list:
-        file = pathlib.Path(file)
-        file = file.expanduser()
+    for src in files_list:
+        src = pathlib.Path(src)
+        src = src.expanduser()
 
-        if file == pathlib.Path('.'):
-            # .parent[0] on '.' cause IndexError
-            raise RuntimeError('No such file or directory.')
+        if not src.exists():
+            raise RuntimeError('No such file.')
 
         metafields = filter_meta(pattern, METADATA_FIELDS)
 
         try:
-            extractor(str(file), metafields)
+            extractor(src, metafields)
         except (extractor.FileError) as ex:
             if not force:
                 raise RuntimeError(str(ex))
             else:
+                # Use click.echo 
                 print(str(ex))
                 continue
         # Building path and expanding '~' symbols in it.
-        complete_path = pathlib.Path(
-                build_path(extractor.metadata, file.suffix, pattern))
-        complete_path = complete_path.expanduser()
+        dst = pathlib.Path(
+                build_path(extractor.metadata, src.suffix, pattern))
+        dst = dst.expanduser()
 
-        paths.append((file, complete_path))
+        paths.append(src_dst_pair(
+            src.absolute().resolve(),
+            dst.absolute().resolve()))
 
     return paths
 
-
-def dry_run(paths, force):
-    """ Displays behaviour in a particular case. """
-    print('')
-    for pair in paths:
-        if pair[1].exists() and not force:
-            print('{}:'.format(pair[0].name))
-
-            strg = ' '.join((
-                'Warning, file {} already exists'.format(
-                    str(pair[1].name)),
-                'and won\'t be processed,',
-                'unless --force specified.'
-            ))
-            print(strg)
-        else:
-            strg = ' '.join((
-                '',
-                'Moving:\n',
-                '{}\n'.format(pair[0]),
-                'To:\n', '{}\n'.format(pair[1])
-            ))
-            print(strg)
-
-
-def action_run(paths, force):
+def apply_move(paths, force, dry_run):
     """ Core process of moving files. """
-    for pair in paths:
-        if pair[1].exists() and not force:
-            emsg = 'Same file {} exists.' \
-                'Use --force to override.'.format(str(pair[0]))
-            raise RuntimeError(emsg)
+    assert isinstance(paths, list)
+    assert len(paths)
+
+    not_existed = [pair.dst for pair in itertools.filterfalse(lambda p:
+        not p.dst.exists(), paths)]
+
+    if len(not_existed) and not force:
+        raise RuntimeError(
+            'The following file(s) already exists:\n'
+            '{}\n'
+            'Use `--force` to override.'
+            .format('\n  '.join(not_existed))
+          )
 
     for pair in paths:
+        assert pair.src.is_absolute()
+        assert pair.dst.is_absolute()
+
         try:
-            if pair[1].parents[0] != pathlib.Path('.') \
-               and not pair[1].parents[0].exists():
-                pair[1].parents[0].mkdir(parents=True)
+            dst_dir = pair.dst.parent
+            if not dst_dir.exists():
+                print('Creating directory: `{}`'.format(dst_dir))
+                if not dry_run:
+                    dst_dir.mkdir(parents=True)
+            
+            print('Moving `{}` to `{}`'.format(pair.src, pair.dst))
+            if not dry_run:
+                shutil.move(str(pair.src), str(pair.dst))
 
-            shutil.move(str(pair[0]), str(pair[1]))
-        except (OSError) as ex:
+        except OSError as ex:
             raise RuntimeError(ex)
 
 

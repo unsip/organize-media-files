@@ -25,9 +25,8 @@ import pathlib
 import pytest
 
 # Project-specific imports
-import omfcore
 from context import make_data_filename
-
+import omfcore
 
 class organaize_tester:
 

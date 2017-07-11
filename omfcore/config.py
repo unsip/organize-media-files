@@ -34,10 +34,6 @@ class config:
     class WryConfigError(RuntimeError):
         pass
 
-    dry_run = False             # Output dispatch 
-    files = None                # List of files to process
-    force = False               # Ignore inconsistencies
-
     @property
     def pattern(self):
         return self._pattern
@@ -95,9 +91,3 @@ class config:
         tmp = copy.deepcopy(other.patterns)
         tmp.update(self.patterns)
         self.patterns = tmp
-
-    def validate(self):
-        """ Make sure that .conf's are valid to work with. """
-        assert self._pattern is not None, 'Set some `pattern` before validate.'
-        assert isinstance(self.files, list)
-        assert len(self.files)
