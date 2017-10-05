@@ -56,7 +56,6 @@ TODO
 2. Put extension into placeholders {ext}.
 3. Substitute argparse to click.
 4. Implement omfedit.
-5. 
 
 Some warnings for future
 ========================
